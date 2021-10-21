@@ -1,0 +1,8 @@
+game :
+    player - aim and shoot --> send message("shot", clientid, {x,y})
+    server: board[][], clients[] <clientid, score, color>
+    on sstate update -> push update to all clients
+
+set up shared state 
+push updates of state to clients -
+timer -> start game, stop game
