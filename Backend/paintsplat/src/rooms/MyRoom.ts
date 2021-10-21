@@ -6,7 +6,8 @@ export class MyRoom extends Room<MyRoomState> {
   onCreate (options: any) {
     // console.log("room created")
     this.setState(new MyRoomState());
-
+    this.state.canvas.push("1")
+    this.state.canvas.push("2")
     this.onMessage("move", (client, message) => {
       console.log("received message")
       console.log(message)
@@ -27,7 +28,7 @@ export class MyRoom extends Room<MyRoomState> {
     // client.send("joinMessage", {time: 60})
     //call this.State.Incr()
     this.state.playerCount += 1
-    this.broadcast("joinMessage", {player: client.sessionId, time:60, count: this.state.playerCount});
+    this.broadcast("joinMessage", {player: client.sessionId, time:60, count: this.state.playerCount, canvascheck: this.state.canvas[1]});
     this.broadcastPatch();
   }
 
