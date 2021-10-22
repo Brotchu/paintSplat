@@ -1,11 +1,11 @@
-import { Schema, Context, type, ArraySchema } from "@colyseus/schema";
+import { Schema, MapSchema, type } from "@colyseus/schema";
 
 export class MyRoomState extends Schema {
 
-  @type("string") mySynchronizedProperty: string = "Hello world";
-  @type("number") playerCount: number = 0;
+  // @type("string") mySynchronizedProperty: string = "Hello world";
+  // @type("number") playerCount: number = 0;
 
-  @type(["string"]) canvas = new ArraySchema<string>();
+  @type({map:"string"}) canvas = new MapSchema<string>();
 
   
   //10*10 canvas [] 100 elements

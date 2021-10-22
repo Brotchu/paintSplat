@@ -12,8 +12,11 @@
     <script src="https://unpkg.com/colyseus.js@^0.14.0/dist/colyseus.js"></script>
     <script>
         // import * as Colyseus from "colyseus.js"; // not necessary if included via <script> tag.
+        var room_obj;
         var client = new Colyseus.Client('ws://localhost:2567');
         client.joinOrCreate("my_room").then(room => {
+
+            room_obj = room;
             console.log(room.sessionId, "joined", room.name);
 
             room.send("move", { direction: "left"});
@@ -23,9 +26,29 @@
                 console.log("message received from server");
                 console.log(message);
             });
+
+            room.onMessage("canvas-updated", (message) => {
+              console.log("Canvas has been updated.");
+              console.log(message);
+            });
+            
         }).catch(e => {
             console.log("JOIN ERROR", e);
         });
     </script>
+    
+    <button type="button" id='rand_gen_button' onclick='generate_rand_num()'>Generate Random Coordinates</button>
+
+    <script>
+      function generate_rand_num() {
+        min = Math.ceil(1);
+        max = Math.floor(50);
+        x = Math.floor(Math.random() * (max - min) + min);
+        y = Math.floor(Math.random() * (max - min) + min);
+        console.log('x = ', x, ', y = ', y);
+        room_obj.send("shot", {x: x, y: y});
+      }
+      </script>
+
   </body>
 </html>
