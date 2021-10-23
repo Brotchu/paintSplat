@@ -3,9 +3,11 @@ import { Schema, MapSchema, type } from "@colyseus/schema";
 export class MyRoomState extends Schema {
 
   // @type("string") mySynchronizedProperty: string = "Hello world";
-  // @type("number") playerCount: number = 0;
+   @type("number") playerCount: number = 0;
 
   @type({map:"string"}) canvas = new MapSchema<string>();
+  @type({map:"string"}) colorMap = new MapSchema<string>();
+  @type("boolean") isRunning: boolean = false;
 
   
   //10*10 canvas [] 100 elements
