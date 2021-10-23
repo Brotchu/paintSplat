@@ -50,5 +50,14 @@
       }
       </script>
 
+    <button type="button" id='start_game' onclick='start_game()'>Start the game</button>
+      <script>
+        function start_game(){
+          
+          room_obj.send("startGame", {});
+        }
+
+      </script>
+
   </body>
 </html>
