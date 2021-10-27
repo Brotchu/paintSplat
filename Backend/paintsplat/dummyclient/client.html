@@ -31,6 +31,11 @@
               console.log("Canvas has been updated.");
               console.log(message);
             });
+
+            room.onMessage("Game Timer",(message) => {
+              console.log("Game Timer: ");
+              console.log(message);
+            });
             
         }).catch(e => {
             console.log("JOIN ERROR", e);
