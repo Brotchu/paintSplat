@@ -19,12 +19,15 @@ const lobbyScreen = new Phaser.Class({
         container = this.add.container(0, 0);
         container.setSize(game.config.width*.3, game.config.height*.3).setInteractive();
         container.add(this.add.rectangle(0, 0, container.width, container.height, 0xFFFFFF));
-        container.on('pointerdown', (pointer, localX, localY) => {
-            container.add(this.add.circle(localX-container.width/2, localY-container.height/2, 5, 0x6666ff));
+        container.on('pointerdown', (_, localX, localY) => {
+            container.add(this.add.circle(localX-container.width/2, localY-container.height/2, 5, paint_color));
             p1Score += 1;
             playerName.setText(username + ": " + p1Score);
 
-            console.log(localX+" "+localY);
+            // Send fire shot event to server
+            console.log('shot:'+localX+' '+localY);
+            console.log(room_obj)
+            room_obj.send("shot", { x: localX, y: localY});
         });
 
 
@@ -63,7 +66,8 @@ const lobbyScreen = new Phaser.Class({
     update: function() {}
 });
 
-var username = prompt('Enter your name:');
+var username = 'test';
+// var username = prompt('Enter your name:');
 
 
 //TIMER FORMAT
