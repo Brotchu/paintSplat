@@ -25,8 +25,6 @@ const lobbyScreen = new Phaser.Class({
             playerName.setText(username + ": " + p1Score);
 
             // Send fire shot event to server
-            console.log('shot:'+localX+' '+localY);
-            console.log(room_obj)
             room_obj.send("shot", { x: localX, y: localY});
         });
 

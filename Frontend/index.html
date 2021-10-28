@@ -49,6 +49,7 @@
     var client = new Colyseus.Client('ws://localhost:2567');
     var room_obj;
     var paint_color;
+    var colorMap;
     var my_room = client.joinOrCreate("my_room")
     
     my_room.then(room => {
@@ -57,15 +58,12 @@
 
         console.log(room.sessionId, "joined", room.name);
         room.send("startGame")
-        room.send("move", { direction: "left"});
-        room.send("shoot", { x: 10, y: 10});
 
         room.onMessage("joinMessage", (message) => {
             console.log("message received from server");
-            console.log(message)
-            console.log(message.colorMap[message.player]);
-            paint_color = message.colorMap[message.player];
-            paint_color = Phaser.Display.Color.HexStringToColor(paint_color).color;
+            console.log(message);
+            ({ colorMap, player } = message);
+            paint_color = Phaser.Display.Color.HexStringToColor(colorMap[player]).color;
         });     
         room.onMessage("canvas-updated", (message) => {
             console.log("Canvas has been updated.");
