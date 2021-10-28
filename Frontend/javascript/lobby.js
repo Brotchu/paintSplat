@@ -30,10 +30,6 @@ const lobbyScreen = new Phaser.Class({
             room_obj.send("shot", { x: localX, y: localY});
         });
 
-
-        // // rectangle = this.add.rectangle(0, 0, game.config.width*.3, game.config.height*.3, 0xFFFFFF).setInteractive(new Phaser.Geom.Rectangle(0, 0, 300, 200), Phaser.Geom.Rectangle.Contains);
-        // rectangle = this.add.rectangle(0, 0, game.config.width*.3, game.config.height*.3, 0xFFFFFF).setInteractive();
-
         this.physics.add.existing(container);
 
         container.body.velocity.x = 100;
@@ -41,17 +37,6 @@ const lobbyScreen = new Phaser.Class({
         container.body.bounce.x = 1;
         container.body.bounce.y = 1;
         container.body.collideWorldBounds = true;
-
-        //THROW
-        // container.on('pointerdown', function (pointer, localX, localY) {
-        //     p1Score += 1;
-        //     playerName.setText(username + ": " + p1Score);
-        //
-        //     var touchX = pointer.x;
-        //     var touchY = pointer.y;
-        //     // console.log(touchX+" "+touchY)
-        //     console.log(localX+" "+localY);
-        // });
 
         // TIMER
         timer = this.add.text(5, 5, getCountDown());
@@ -74,9 +59,6 @@ const lobbyScreen = new Phaser.Class({
         }
     }
 });
-
-// var username = 'test';
-var username = prompt('Enter your name:');
 
 // GET COUNTDOWN
 function getCountDown(){

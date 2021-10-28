@@ -37,12 +37,13 @@
 
     <script>
         var client = new Colyseus.Client('ws://localhost:2567');
+        var username = prompt('Enter your name:');
         var room_obj;
         var paint_color;
         var colorMap;
         var gameTime;
         var isGameOver = false;
-        var my_room = client.joinOrCreate("my_room")
+        var my_room = client.joinOrCreate("my_room", {"name": username})
         
         my_room.then(room => {
 
@@ -72,16 +73,7 @@
         }).catch(e => {
             console.log("JOIN ERROR", e);
         });
-    </script> 
-
-    <script>
-        function hidePg(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-    </script>
-
-    <script>
-    // function phaserStuff() {
+        
         var w = window.innerWidth;
         var h = window.innerHeight;
 
@@ -99,41 +91,15 @@
             },
             scene: []
         };
-    // }
-        // var client = new Colyseus.Client('ws://localhost:2567');
-        // var room_obj;
-        // var paint_color;
-        // var colorMap;
-        // var my_room = client.joinOrCreate("my_room")
-        
-        // my_room.then(room => {
 
-        //     room_obj = room;
-
-        //     console.log(room.sessionId, "joined", room.name);
-
-        //     room.onMessage("joinMessage", (message) => {
-        //         console.log("message received from server");
-        //         console.log(message);
-        //         ({ colorMap, player } = message);
-        //         paint_color = Phaser.Display.Color.HexStringToColor(colorMap[player]).color;
-        //     });     
-        //     room.onMessage("canvas-updated", (message) => {
-        //         console.log("Canvas has been updated.");
-        //         console.log(message);
-        //     });
-            
-        // }).catch(e => {
-        //     console.log("JOIN ERROR", e);
-        // });
-    </script>
-    <script>
         function start_game(){
-            
             room_obj.send("startGame");
-        }    
-    </script>
+        }
 
+        function hidePg(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
 
     <script type="text/javascript" src="javascript/lobby.js"></script>
     <script src="index.js" type="text/javascript"></script>
