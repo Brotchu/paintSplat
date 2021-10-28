@@ -64,8 +64,8 @@ const lobbyScreen = new Phaser.Class({
     update: function() {}
 });
 
-var username = 'test';
-// var username = prompt('Enter your name:');
+// var username = 'test';
+var username = prompt('Enter your name:');
 
 
 //TIMER FORMAT
