@@ -1,0 +1,20 @@
+{
+  "name": "Paint Splat",
+  "short_name": "ASE",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "A game app.",
+  "icons": [
+    {
+      "src": "images/160X160.png",
+      "sizes": "160X160",
+      "type": "image/png"
+    },
+    {
+      "src": "images/150X150.png",
+      "sizes": "860X1060",
+      "type": "image/png"
+    }
+  ]
+}
