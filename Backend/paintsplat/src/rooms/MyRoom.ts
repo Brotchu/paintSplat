@@ -25,6 +25,10 @@ public delayedInterval!: Delayed;
     });
 
     this.onMessage("startGame", (client, message) => {
+      if ( this.state.isRunning == true ) {
+        client.send("game_running", "A game's already running.");
+        return;
+      }
       console.log("Starting time " + this.clock.currentTime);
       console.log("Running Flag= "+this.state.isRunning);
       if (this.state.isRunning == false) {
