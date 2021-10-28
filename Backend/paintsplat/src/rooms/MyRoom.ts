@@ -3,7 +3,7 @@ import { MyRoomState } from "./schema/MyRoomState";
 import { Schema, MapSchema, type } from "@colyseus/schema";
 
 var colorCodes:string[]; 
-var gameTime = 15_000;
+var gameTime = 515_000;
 colorCodes = ["#191970","#006400","#ff0000","#ffd700","#00ff00","#00ffff","#ff00ff","#ffb6c1"]
 export class MyRoom extends Room<MyRoomState> {
 public delayedInterval!: Delayed;
@@ -21,7 +21,7 @@ public delayedInterval!: Delayed;
         
         if ( this.state.canvas.get(key) == undefined ) {
           this.state.canvas.set ( key, client.sessionId );
-          this.broadcast("canvas-updated", {client_id: client.sessionId, key: key});
+          this.broadcast("canvas-updated", {player: client.sessionId, key: key});
         }
         else {
           console.log("This coordinate is already shot.");
@@ -86,7 +86,7 @@ public delayedInterval!: Delayed;
   }
 
   onJoin (client: Client, options: any) {
-    if(this.state.isRunning == false){
+    // if(this.state.isRunning == false){
       console.log(client.sessionId, "joined!", options);
       // client.send("joinMessage", {time: 60})
       //call this.State.Incr()
@@ -95,7 +95,7 @@ public delayedInterval!: Delayed;
       this.state.playerCount += 1;
       this.broadcast ( "joinMessage", { player: client.sessionId, time:60, canvascheck: this.state.canvas, colorMap: this.state.colorMap, names: this.state.playerName } );
       this.broadcastPatch();
-    }
+    // }
   }
 
   onLeave (client: Client, consented: boolean) {
