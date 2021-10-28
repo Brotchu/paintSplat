@@ -65,6 +65,7 @@
             console.log(message)
             console.log(message.colorMap[message.player]);
             paint_color = message.colorMap[message.player];
+            paint_color = Phaser.Display.Color.HexStringToColor(paint_color).color;
         });     
         room.onMessage("canvas-updated", (message) => {
             console.log("Canvas has been updated.");
