@@ -21,7 +21,7 @@ public delayedInterval!: Delayed;
         
         if ( this.state.canvas.get(key) == undefined ) {
           this.state.canvas.set ( key, client.sessionId );
-          this.broadcast("canvas-updated", {key: key});
+          this.broadcast("canvas-updated", {client_id: client.sessionId, key: key});
         }
         else {
           console.log("This coordinate is already shot.");
