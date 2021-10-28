@@ -7,6 +7,7 @@ export class MyRoomState extends Schema {
 
   @type({map:"string"}) canvas = new MapSchema<string>();
   @type({map:"string"}) colorMap = new MapSchema<string>();
+  @type({map:"string"}) playerName = new MapSchema<string>();
   @type("boolean") isRunning: boolean = false;
 
   

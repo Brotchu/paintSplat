@@ -57,7 +57,25 @@ public delayedInterval!: Delayed;
         this.clock.setTimeout ( () => { 
           
           console.log("Time at end of game " + this.clock.elapsedTime);
-          this.broadcast("Game is over",this.state.canvas);
+          var scores = {};
+          // this.state.canvas.forEach((value, key) => {
+          //   if (scores.get(value) == undefined) {
+          //     scores.set(value, 1)
+          //   } else {
+          //     scores.set(value, scores.get(value) + 1 )
+          //   }
+          // });
+          for (let [key, value] of this.state.canvas.entries()){            
+            if (value in scores){
+              var count = scores[value];
+              // scores.set(value, count+1)
+              scores[value] = count+1
+            } else {
+              scores[value]= 1;
+            }
+          }
+          // this.broadcast("Game is over",this.state.canvas);
+          this.broadcast("Game is over", scores)
           this.state.isRunning = false;
           this.delayedInterval.clear();
           this.clock.stop();
@@ -69,19 +87,21 @@ public delayedInterval!: Delayed;
 
   onJoin (client: Client, options: any) {
     if(this.state.isRunning == false){
-    console.log(client.sessionId, "joined!");
-    // client.send("joinMessage", {time: 60})
-    //call this.State.Incr()
-    this.state.colorMap.set(client.sessionId, colorCodes[this.state.playerCount]);
-    this.state.playerCount += 1;
-    this.broadcast ( "joinMessage", { player: client.sessionId, time:60, canvascheck: this.state.canvas, colorMap: this.state.colorMap } );
-    this.broadcastPatch();
+      console.log(client.sessionId, "joined!", options);
+      // client.send("joinMessage", {time: 60})
+      //call this.State.Incr()
+      this.state.playerName.set(client.sessionId, options.name)
+      this.state.colorMap.set(client.sessionId, colorCodes[this.state.playerCount]);
+      this.state.playerCount += 1;
+      this.broadcast ( "joinMessage", { player: client.sessionId, time:60, canvascheck: this.state.canvas, colorMap: this.state.colorMap, names: this.state.playerName } );
+      this.broadcastPatch();
     }
   }
 
   onLeave (client: Client, consented: boolean) {
     this.state.colorMap.delete(client.sessionId);
-    this.broadcast("leaveMessage",{colorMap: this.state.colorMap});
+    this.state.playerName.delete(client.sessionId);
+    this.broadcast("leaveMessage",{colorMap: this.state.colorMap, names: this.state.playerName});
     console.log(client.sessionId, "left!");
   }
 

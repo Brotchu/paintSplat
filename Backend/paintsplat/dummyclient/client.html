@@ -14,7 +14,7 @@
         // import * as Colyseus from "colyseus.js"; // not necessary if included via <script> tag.
         var room_obj;
         var client = new Colyseus.Client('ws://localhost:2567');
-        client.joinOrCreate("my_room").then(room => {
+        client.joinOrCreate("my_room", {"name":"playerName"}).then(room => {
 
             room_obj = room;
             console.log(room.sessionId, "joined", room.name);
@@ -34,6 +34,11 @@
 
             room.onMessage("Game Timer",(message) => {
               console.log("Game Timer: ");
+              console.log(message);
+            });
+
+            room.onMessage("Game is over", (message)=>{
+              console.log("game over, scores: ");
               console.log(message);
             });
             
