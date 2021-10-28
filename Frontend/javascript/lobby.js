@@ -54,6 +54,14 @@ const lobbyScreen = new Phaser.Class({
             timer.setText(getCountDown());
         }
 
+        if(updateQueue.length != 0){
+            console.log(colorMap);
+            const {player, key} = updateQueue.pop();
+            const [pointX, pointY] = key.split(',');
+            const shotColor = Phaser.Display.Color.HexStringToColor(colorMap[player]).color;
+            container.add(this.add.circle(pointX-container.width/2, pointY-container.height/2, 5, shotColor));
+        }
+
         if(isGameOver && !winnerDeclared){
             onGameOver();
         }
