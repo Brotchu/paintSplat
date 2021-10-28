@@ -4,6 +4,8 @@ var playerName;
 var rectangle;
 var p1Score = 0;
 var container;
+var currentTime;
+var winnerDeclared = false;
 
 const lobbyScreen = new Phaser.Class({
     Extends: Phaser.Scene,
@@ -51,22 +53,36 @@ const lobbyScreen = new Phaser.Class({
         //     console.log(localX+" "+localY);
         // });
 
-        // TIME IN SECOND
-        this.initialTime = 50;
-        timer = this.add.text(5, 5, 'Countdown: ' + formatTime(this.initialTime));
-        timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true });
+        // TIMER
+        timer = this.add.text(5, 5, getCountDown());
+        // timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true });
 
         //PLAYERS NAME
         playerName = this.add.text(5, 25, username + ": " + p1Score);
 
     },
 
-    update: function() {}
+    update: function() {
+
+        if(gameTime && currentTime != gameTime) {
+            currentTime = gameTime;
+            timer.setText(getCountDown());
+        }
+
+        if(isGameOver && !winnerDeclared){
+            onGameOver();
+        }
+    }
 });
 
 // var username = 'test';
 var username = prompt('Enter your name:');
 
+// GET COUNTDOWN
+function getCountDown(){
+    const time = currentTime ? formatTime(currentTime) : '0:00';
+    return 'Countdown: ' + time;
+}
 
 //TIMER FORMAT
 function formatTime(seconds)
@@ -78,12 +94,18 @@ function formatTime(seconds)
 }
 
 //TIMER COUNTDOWN
-function onEvent ()
-{
-    this.initialTime -= 1; // One second
-    timer.setText('Countdown: ' + formatTime(this.initialTime));
-    if(this.initialTime==0){
-        alert(username+" Won the game");
-        // rectangle.disableInteractive();
-    }
+function onGameOver(){
+    timer.setText('Countdown: 0:00');
+    winnerDeclared = true;
+    alert(username+" Won the game");
 }
+
+// function onEvent ()
+// {
+//     this.initialTime -= 1; // One second
+//     timer.setText('Countdown: ' + formatTime(this.initialTime));
+//     if(this.initialTime==0){
+//         alert(username+" Won the game");
+//         // rectangle.disableInteractive();
+//     }
+// }

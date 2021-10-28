@@ -40,6 +40,8 @@
         var room_obj;
         var paint_color;
         var colorMap;
+        var gameTime;
+        var isGameOver = false;
         var my_room = client.joinOrCreate("my_room")
         
         my_room.then(room => {
@@ -57,6 +59,14 @@
             room.onMessage("canvas-updated", (message) => {
                 console.log("Canvas has been updated.");
                 console.log(message);
+            });
+            room.onMessage("Game Timer", (message) => {
+            console.log("Game Timer");
+            gameTime = message;
+            });
+            room.onMessage("Game is over", () => {
+                console.log("Game is over");
+                isGameOver = true;
             });
             
         }).catch(e => {
