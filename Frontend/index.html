@@ -46,6 +46,7 @@
         scene: []
     };
 
+
     var client = new Colyseus.Client('ws://localhost:2567');
     var room_obj;
     var paint_color;
@@ -57,7 +58,6 @@
         room_obj = room;
 
         console.log(room.sessionId, "joined", room.name);
-        room.send("startGame")
 
         room.onMessage("joinMessage", (message) => {
             console.log("message received from server");

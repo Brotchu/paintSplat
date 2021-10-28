@@ -1,0 +1,40 @@
+* { 
+    box-sizing: border-box;
+}
+h1 {
+    text-align: center;
+    text-decoration: wavy;
+    text-shadow: 30px;
+    font-size:45pt;
+    color:rgb(254, 204, 111);
+}
+/* Set Style for button */
+.button {
+    border: none;
+    color: white;
+    padding: 16px 64px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  
+  .button1 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid rgb(254, 204, 111);
+  }
+
+  .button1:hover {
+    background-color:rgb(254, 204, 111);
+    color: white;
+  }
+
+  .join-header {
+    margin: auto;
+	text-align: center;
+	padding: 20px;
+}
