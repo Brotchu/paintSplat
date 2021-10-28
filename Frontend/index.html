@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+     <script>
+        if ('serviceWorker' in navigator){
+            navigator.serviceWorker.register('sw.js')
+
+        }
+    </script>
     <meta charset="UTF-8">
     <title>PaintSplat</title>
 
@@ -10,6 +16,7 @@
     <script src="https://unpkg.com/colyseus.js@^0.14.0/dist/colyseus.js"></script>
 
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="manifest" href="manifest.webmanifest">
 
     <style type="text/css">
         *
