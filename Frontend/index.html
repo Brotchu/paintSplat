@@ -27,54 +27,102 @@
     </style>
 </head>
 <body>
-<script>
-    var w = window.innerWidth;
-    var h = window.innerHeight;
 
-    const config = {
-        type: Phaser.CANVAS,
-        parent: "game",
-        height: h,
-        width: w,
-        backgroundColor: "#5DBCD2",
-        physics: {
-            default: 'arcade',
-            arcade: {
-                gravity: { y: 200 }
-            }
-        },
-        scene: []
-    };
+    <div id="joinPage" class="join-header"> 
+        <h1>PaintSplat!</h1>
+        <label for="username">Username</label>
+        <input type="text" id="username" autofocus><br><br>
+        <button onclick="start_game(); phaserStuff(); hidePg('joinPage')"  class="button button1">Begin Game!</button>
+    </div>
 
-
-    var client = new Colyseus.Client('ws://localhost:2567');
-    var room_obj;
-    var paint_color;
-    var colorMap;
-    var my_room = client.joinOrCreate("my_room")
-    
-    my_room.then(room => {
-
-        room_obj = room;
-
-        console.log(room.sessionId, "joined", room.name);
-
-        room.onMessage("joinMessage", (message) => {
-            console.log("message received from server");
-            console.log(message);
-            ({ colorMap, player } = message);
-            paint_color = Phaser.Display.Color.HexStringToColor(colorMap[player]).color;
-        });     
-        room.onMessage("canvas-updated", (message) => {
-            console.log("Canvas has been updated.");
-            console.log(message);
-        });
+    <script>
+        var client = new Colyseus.Client('ws://localhost:2567');
+        var room_obj;
+        var paint_color;
+        var colorMap;
+        var my_room = client.joinOrCreate("my_room")
         
-    }).catch(e => {
-        console.log("JOIN ERROR", e);
-    });
+        my_room.then(room => {
 
-</script>
+            room_obj = room;
+
+            console.log(room.sessionId, "joined", room.name);
+
+            room.onMessage("joinMessage", (message) => {
+                console.log("message received from server");
+                console.log(message);
+                ({ colorMap, player } = message);
+                paint_color = Phaser.Display.Color.HexStringToColor(colorMap[player]).color;
+            });     
+            room.onMessage("canvas-updated", (message) => {
+                console.log("Canvas has been updated.");
+                console.log(message);
+            });
+            
+        }).catch(e => {
+            console.log("JOIN ERROR", e);
+        });
+    </script> 
+
+    <script>
+        function hidePg(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
+
+    <script>
+    // function phaserStuff() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+
+        const config = {
+            type: Phaser.CANVAS,
+            parent: "game",
+            height: h,
+            width: w,
+            backgroundColor: "#5DBCD2",
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 200 }
+                }
+            },
+            scene: []
+        };
+    // }
+        // var client = new Colyseus.Client('ws://localhost:2567');
+        // var room_obj;
+        // var paint_color;
+        // var colorMap;
+        // var my_room = client.joinOrCreate("my_room")
+        
+        // my_room.then(room => {
+
+        //     room_obj = room;
+
+        //     console.log(room.sessionId, "joined", room.name);
+
+        //     room.onMessage("joinMessage", (message) => {
+        //         console.log("message received from server");
+        //         console.log(message);
+        //         ({ colorMap, player } = message);
+        //         paint_color = Phaser.Display.Color.HexStringToColor(colorMap[player]).color;
+        //     });     
+        //     room.onMessage("canvas-updated", (message) => {
+        //         console.log("Canvas has been updated.");
+        //         console.log(message);
+        //     });
+            
+        // }).catch(e => {
+        //     console.log("JOIN ERROR", e);
+        // });
+    </script>
+    <script>
+        function start_game(){
+            
+            room_obj.send("startGame");
+        }    
+    </script>
 
 
     <script type="text/javascript" src="javascript/lobby.js"></script>
