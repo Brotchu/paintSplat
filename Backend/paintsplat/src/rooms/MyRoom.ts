@@ -3,46 +3,66 @@ import { MyRoomState } from "./schema/MyRoomState";
 import { Schema, MapSchema, type } from "@colyseus/schema";
 
 var colorCodes:string[]; 
+var gameTime = 15_000;
 colorCodes = ["#191970","#006400","#ff0000","#ffd700","#00ff00","#00ffff","#ff00ff","#ffb6c1"]
 export class MyRoom extends Room<MyRoomState> {
 public delayedInterval!: Delayed;
   
   onCreate (options: any) {
+
     // console.log("room created")
     this.setState(new MyRoomState());
-    // this.state.canvas.push("1")
-    // this.state.canvas.push("2")
-
-    //this.state.canvas.set ( "10,10", "Client_1" );
-
 
     this.onMessage("shot", (client, message) => {
-      if(this.state.isRunning == true){
-        var key = message.x + "," + message.y;
-        this.state.canvas.set ( key, client.sessionId );
-        this.broadcast("canvas-updated", {state: this.state.canvas});
+      if(this.state.isRunning == true) {
+        var x = Math.round(message.x / 5.0) * 5;
+        var y = Math.round(message.y / 5.0) * 5;
+        var key = x + "," + y;
+        
+        if ( this.state.canvas.get(key) == undefined ) {
+          this.state.canvas.set ( key, client.sessionId );
+          this.broadcast("canvas-updated", {key: key});
+        }
+        else {
+          console.log("This coordinate is already shot.");
+          client.send("overlap", "This coordinate is already shot.");
+        }
       }
     });
 
     this.onMessage("startGame", (client, message) => {
-      console.log("Starting time " + this.clock.currentTime);
-      console.log("Running Flag= "+this.state.isRunning);
+
+      // Return if a game is already running.
+      if ( this.state.isRunning == true ) {
+        client.send("game_running", "A game's already running.");
+        return;
+      }
+      
+      console.log ( "Starting time: " + this.clock.currentTime );
+
       if (this.state.isRunning == false) {
+
         this.state.canvas = new MapSchema();
         this.state.isRunning = true;
         this.broadcast("game_started", {state: this.state.canvas});
         this.clock.start();
-        this.delayedInterval = this.clock.setInterval(() => {
-          console.log("Time now " + this.clock.elapsedTime);
-          this.broadcast("Game Timer", ((this.clock.elapsedTime/1000).toFixed(0)));
-      }, 1000);
+        var countdownTime = (gameTime/1_000) - Number( (this.clock.elapsedTime/1_000).toFixed(0) );
+        this.broadcast ( "Game Timer", countdownTime );    
         
-        this.clock.setTimeout(() => { console.log("Time now " + this.clock.elapsedTime);
-        this.broadcast("Game is over",this.state.canvas);
-        this.state.isRunning = false;
-        this.delayedInterval.clear();
-        //this.clock.stop();
-      }, 15_000);
+        this.delayedInterval = this.clock.setInterval(() => {
+          var countdownTime = (gameTime/1_000) - Number( (this.clock.elapsedTime/1_000).toFixed(0) );
+          this.broadcast ( "Game Timer", countdownTime );
+        }, 1_000);
+        
+        this.clock.setTimeout ( () => { 
+          
+          console.log("Time at end of game " + this.clock.elapsedTime);
+          this.broadcast("Game is over",this.state.canvas);
+          this.state.isRunning = false;
+          this.delayedInterval.clear();
+          this.clock.stop();
+
+        }, gameTime );
       }
     });
   }
