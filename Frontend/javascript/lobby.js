@@ -95,13 +95,13 @@ function getWinner(){
     let winner = '';
     
     for(const property in scores) {
-        alert(property + "=" + scores[property]);
+        alert(names[property] + "=" + scores[property]);
         if(scores[property] > highest) {
             highest = scores[property];
             winner = property;
         }
     }
-    return winner;
+    return names[winner];
 }
 
 // function onEvent ()
