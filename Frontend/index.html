@@ -52,9 +52,14 @@
             room_obj = room;
 
             room.onMessage("joinMessage", (message) => {
+                console.log(message);
                 colorMap = message.colorMap;
                 player = message.player;
                 paint_color = Phaser.Display.Color.HexStringToColor(colorMap[player]).color;
+                isRunning = message.isRunning;
+                if (isRunning) {
+                    hidePg("joinPage");
+                }
             });     
             room.onMessage("canvas-updated", (message) => {
                 updateQueue.push(message);
@@ -69,6 +74,10 @@
                 isGameOver = true;
                 scores = message;
             });
+            //Hide the banner and play 
+            room.onMessage("game_started", (message) => {
+                hidePg("joinPage");
+            })
             
         }).catch(e => {
             console.log("JOIN ERROR", e);
