@@ -42,6 +42,7 @@
         var paint_color;
         var colorMap;
         var gameTime;
+        var scores;
         var isGameOver = false;
         var updateQueue = [];
         var my_room = client.joinOrCreate("my_room", {"name": username})
@@ -49,8 +50,6 @@
         my_room.then(room => {
 
             room_obj = room;
-
-            console.log(room.sessionId, "joined", room.name);
 
             room.onMessage("joinMessage", (message) => {
                 colorMap = message.colorMap;
@@ -60,11 +59,15 @@
             room.onMessage("canvas-updated", (message) => {
                 updateQueue.push(message);
             });
+            room.onMessage("overlap", (message) => {
+                console.log(message);
+            });
             room.onMessage("Game Timer", (message) => {
                 gameTime = message;
             });
-            room.onMessage("Game is over", () => {
+            room.onMessage("Game is over", (message) => {
                 isGameOver = true;
+                scores = message;
             });
             
         }).catch(e => {

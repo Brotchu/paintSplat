@@ -22,7 +22,7 @@ const lobbyScreen = new Phaser.Class({
         container.setSize(game.config.width*.3, game.config.height*.3).setInteractive();
         container.add(this.add.rectangle(0, 0, container.width, container.height, 0xFFFFFF));
         container.on('pointerdown', (_, localX, localY) => {
-            container.add(this.add.circle(localX-container.width/2, localY-container.height/2, 5, paint_color));
+            // container.add(this.add.circle(localX-container.width/2, localY-container.height/2, 5, paint_color));
             p1Score += 1;
             playerName.setText(username + ": " + p1Score);
 
@@ -55,7 +55,6 @@ const lobbyScreen = new Phaser.Class({
         }
 
         if(updateQueue.length != 0){
-            console.log(colorMap);
             const {player, key} = updateQueue.pop();
             const [pointX, pointY] = key.split(',');
             const shotColor = Phaser.Display.Color.HexStringToColor(colorMap[player]).color;
@@ -87,7 +86,22 @@ function formatTime(seconds)
 function onGameOver(){
     timer.setText('Countdown: 0:00');
     winnerDeclared = true;
-    alert(username+" Won the game");
+    alert(getWinner()+" Won the game");
+}
+
+// GET WINNER
+function getWinner(){
+    let highest = -1;
+    let winner = '';
+    
+    for(const property in scores) {
+        alert(property + "=" + scores[property]);
+        if(scores[property] > highest) {
+            highest = scores[property];
+            winner = property;
+        }
+    }
+    return winner;
 }
 
 // function onEvent ()
