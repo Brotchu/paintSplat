@@ -93,7 +93,10 @@ public delayedInterval!: Delayed;
       this.state.playerName.set(client.sessionId, options.name)
       this.state.colorMap.set(client.sessionId, colorCodes[this.state.playerCount]);
       this.state.playerCount += 1;
-      this.broadcast ( "joinMessage", { player: client.sessionId, time:60, canvascheck: this.state.canvas, colorMap: this.state.colorMap, names: this.state.playerName } );
+      this.broadcast ( "joinMessage", { player: client.sessionId, time:60, canvascheck: this.state.canvas,
+                                   colorMap: this.state.colorMap,
+                                   names: this.state.playerName,
+                                   isRunning: this.state.isRunning} );
       this.broadcastPatch();
     // }
   }
