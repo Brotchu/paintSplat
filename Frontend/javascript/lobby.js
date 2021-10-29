@@ -6,6 +6,7 @@ var p1Score = 0;
 var container;
 var currentTime;
 var winnerDeclared = false;
+var speed = 100;
 
 const lobbyScreen = new Phaser.Class({
     Extends: Phaser.Scene,
@@ -32,8 +33,8 @@ const lobbyScreen = new Phaser.Class({
 
         this.physics.add.existing(container);
 
-        container.body.velocity.x = 100;
-        container.body.velocity.y = 100;
+        container.body.velocity.x = speed;
+        container.body.velocity.y = speed;
         container.body.bounce.x = 1;
         container.body.bounce.y = 1;
         container.body.collideWorldBounds = true;
@@ -52,6 +53,13 @@ const lobbyScreen = new Phaser.Class({
         if(gameTime && currentTime != gameTime) {
             currentTime = gameTime;
             timer.setText(getCountDown());
+
+            if(currentTime % 60 == 0){
+                speed += 100;
+                container.body.velocity.x = speed;
+                container.body.velocity.y = speed;
+                console.log('speed:'+speed);
+            }
         }
 
         if(updateQueue.length != 0){
