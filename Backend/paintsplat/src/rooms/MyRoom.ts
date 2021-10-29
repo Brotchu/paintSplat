@@ -98,6 +98,8 @@ public delayedInterval!: Delayed;
                                    names: this.state.playerName,
                                    isRunning: this.state.isRunning} );
       this.broadcastPatch();
+    } else {
+      client.send("game_running_already", {})
     }
   }
 
