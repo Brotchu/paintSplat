@@ -86,7 +86,7 @@ public delayedInterval!: Delayed;
   }
 
   onJoin (client: Client, options: any) {
-    // if(this.state.isRunning == false){
+    if(this.state.isRunning == false){
       console.log(client.sessionId, "joined!", options);
       // client.send("joinMessage", {time: 60})
       //call this.State.Incr()
@@ -95,7 +95,7 @@ public delayedInterval!: Delayed;
       this.state.playerCount += 1;
       this.broadcast ( "joinMessage", { player: client.sessionId, time:60, canvascheck: this.state.canvas, colorMap: this.state.colorMap, names: this.state.playerName } );
       this.broadcastPatch();
-    // }
+    }
   }
 
   onLeave (client: Client, consented: boolean) {
